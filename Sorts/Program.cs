@@ -105,6 +105,15 @@ namespace Sorts
             Console.WriteLine($"ShellSort took: {stopwatch.ElapsedMilliseconds} milliseconds");
             if (error) Console.WriteLine("Sort did not work correctly");
             stopwatch.Reset();
+            
+            array = (int[])test.Clone(); error = false;
+            stopwatch.Start();
+            QuickSort(array, 0, array.Length - 1);
+            stopwatch.Stop();
+            for (int i = 1; i < array.Length; i++) { if (array[i] >= array[i - 1]) continue; else error = true; }
+            Console.WriteLine($"QuickSort took: {stopwatch.ElapsedMilliseconds} milliseconds");
+            if (error) Console.WriteLine("Sort did not work correctly");
+            stopwatch.Reset();
 
             array = (int[])test.Clone(); error = false;
             stopwatch.Start();
