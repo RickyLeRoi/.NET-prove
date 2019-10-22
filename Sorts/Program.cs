@@ -99,6 +99,15 @@ namespace Sorts
 
             array = (int[])test.Clone(); error = false;
             stopwatch.Start();
+            CountingSort(array);
+            stopwatch.Stop();
+            for (int i = 1; i < array.Length; i++) { if (array[i] >= array[i - 1]) continue; else error = true; }
+            Console.WriteLine($"CountingSort took: {stopwatch.ElapsedMilliseconds} milliseconds");
+            if (error) Console.WriteLine("Sort did not work correctly");
+            stopwatch.Reset();
+            
+            array = (int[])test.Clone(); error = false;
+            stopwatch.Start();
             ShellSort(array);
             stopwatch.Stop();
             for (int i = 1; i < array.Length; i++) { if (array[i] >= array[i - 1]) continue; else error = true; }
@@ -213,7 +222,40 @@ namespace Sorts
             }
         }
         
-        private void QuickSort(int[] arr, int start, int end)
+        public static void CountingSort(int[] array)
+        {
+            int[] sortedArray = new int[array.Length];
+
+            int minVal = array[0];
+            int maxVal = array[0];
+            for (int i = 1; i < array.Length; i++)
+            {
+                if (array[i] < minVal) minVal = array[i];
+                else if (array[i] > maxVal) maxVal = array[i];
+            }
+
+            int[] counts = new int[maxVal - minVal + 1];
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                counts[array[i] - minVal]++;
+            }
+
+            counts[0]--;
+            for (int i = 1; i < counts.Length; i++)
+            {
+                counts[i] = counts[i] + counts[i - 1];
+            }
+
+            for (int i = array.Length - 1; i >= 0; i--)
+            {
+                sortedArray[counts[array[i] - minVal]--] = array[i];
+            }
+
+            array = sortedArray;
+        }
+        
+        private static void QuickSort(int[] arr, int start, int end)
         {
             int d;
             if (start < end)
