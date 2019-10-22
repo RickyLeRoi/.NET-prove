@@ -203,6 +203,37 @@ namespace Sorts
                     pos = 1;
             }
         }
+        
+        private void QuickSort(int[] arr, int start, int end)
+        {
+            int d;
+            if (start < end)
+            {
+                int temp;
+                int p = arr[end];
+                int i = start - 1;
+
+                for (int j = start; j <= end - 1; j++)
+                {
+                    if (arr[j] <= p)
+                    {
+                        i++;
+                        temp = arr[i];
+                        arr[i] = arr[j];
+                        arr[j] = temp;
+                    }
+                }
+
+                temp = arr[i + 1];
+                arr[i + 1] = arr[end];
+                arr[end] = temp;
+
+                d = i + 1;
+
+                QuickSort(arr, start, d - 1);
+                QuickSort(arr, d + 1, end);
+            }
+        }
 
         public static void MergeSort(int[] arr, int left, int right)
         {
